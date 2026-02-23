@@ -1,0 +1,10 @@
+# Python virtual environment
+venv/
+
+# Local datasets
+TripAdvisorTrainingDataProject1/
+*.csv
+
+# Python cache
+__pycache__/
+*.pyc
