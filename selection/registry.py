@@ -21,8 +21,7 @@ METHODS = {
     "D_tfidf_80":     ("selection.methods.D_tfidf_budget", {"budget": 80}),
     "D_tfidf_120":    ("selection.methods.D_tfidf_budget", {"budget": 120}),
     "D_tfidf_160":    ("selection.methods.D_tfidf_budget", {"budget": 160}),
-    # Optional:
-    # "E_dense_extractive": ("selection.methods.E_dense_extractive", {"clusters": 8}),
+    "E_dense_extractive": ("selection.methods.E_dense_extractive", {"clusters": 8}),
     # "E_llm_qwen": ("selection.methods.E_llm_ollama", {"model": "qwen2.5:7b"}),
     }
 
