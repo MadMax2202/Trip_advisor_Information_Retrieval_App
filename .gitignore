@@ -2,8 +2,11 @@
 venv/
 
 # Local datasets
-TripAdvisorTrainingDataProject1/
+data/
 *.csv
+Extra_data/
+*.csv
+
 
 # Python cache
 __pycache__/
