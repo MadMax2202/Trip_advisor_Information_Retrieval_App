@@ -1,37 +1,45 @@
-# Hybrid Model (BM25 + Dense)
 import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
 from models.bm25 import BM25Retriever
 from models.dense import DenseRetriever
 
 
 class HybridRetriever:
-
-    def __init__(self, alpha=0.5):
+    def __init__(self, alpha=0.5, dense_model="all-MiniLM-L6-v2"):
         self.alpha = alpha
         self.bm25 = BM25Retriever()
-        self.dense = DenseRetriever()
+        self.dense = DenseRetriever(model_name=dense_model)
         self.place_ids = None
 
     def fit(self, df_test):
-        self.place_ids = df_test["place_id"].tolist()
-        self.bm25.fit(df_test)
-        self.dense.fit(df_test)
+        df = df_test.copy()
+        df["place_id"] = df["place_id"].astype(int)
+        df["text"] = df["text"].fillna("").astype(str)
 
-    def rank(self, query_text):
+        self.place_ids = df["place_id"].tolist()
+        self.bm25.fit(df[["place_id", "text"]])
+        self.dense.fit(df[["place_id", "text"]])
 
-        # BM25 scores
-        bm25_scores = self.bm25.bm25.get_scores(query_text.split())
+    def rank(self, query_text, exclude_id=None):
+        q_text = str(query_text)
+
+        # BM25 scores (match BM25 preprocessing: lowercase split)
+        bm25_scores = self.bm25.bm25.get_scores(q_text.lower().split())
 
         # Dense scores
-        query_emb = self.dense.model.encode([query_text])
-        dense_scores = self.dense.model.similarity(query_emb, self.dense.doc_embeddings)[0]
+        q = self.dense.model.encode([q_text])
+        dense_scores = cosine_similarity(q, self.dense.doc_embeddings).flatten()
 
-        # Normalize
+        # Normalize safely
         bm25_scores = (bm25_scores - bm25_scores.min()) / (bm25_scores.max() - bm25_scores.min() + 1e-9)
         dense_scores = (dense_scores - dense_scores.min()) / (dense_scores.max() - dense_scores.min() + 1e-9)
 
         combined = self.alpha * bm25_scores + (1 - self.alpha) * dense_scores
+        ranked_idx = np.argsort(combined)[::-1]
+        ranked = [self.place_ids[i] for i in ranked_idx]
 
-        ranked_indices = np.argsort(combined)[::-1]
-
-        return [self.place_ids[i] for i in ranked_indices]
+        if exclude_id is not None:
+            exclude_id = int(exclude_id)
+            ranked = [pid for pid in ranked if pid != exclude_id]
+        return ranked

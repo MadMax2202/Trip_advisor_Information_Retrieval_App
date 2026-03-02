@@ -2,8 +2,6 @@ from __future__ import annotations
 
 # Each method module must expose: build(df_models: pd.DataFrame, **params) -> pd.DataFrame
 
-
-
 METHODS = {
     "A_baseline_all": ("selection.methods.A_baseline", {}),
     "B_longest_k5":   ("selection.methods.B_longest", {"k": 5}),
@@ -22,9 +20,10 @@ METHODS = {
     "D_tfidf_120":    ("selection.methods.D_tfidf_budget", {"budget": 120}),
     "D_tfidf_160":    ("selection.methods.D_tfidf_budget", {"budget": 160}),
     "E_dense_extractive": ("selection.methods.E_dense_extractive", {"clusters": 8}),
-    # "E_llm_qwen": ("selection.methods.E_llm_ollama", {"model": "qwen2.5:7b"}),
+    "E_llm_qwen_test50": ("selection.methods.E_llm_ollama", {"model": "qwen2.5:3b", "limit_places": 50}),
+    #"E_llm_qwen_full": ("selection.methods.E_llm_ollama", {"model": "qwen2.5:3b", "limit_places": None}),
     }
 
 def iter_methods():
     for name, (module_path, params) in METHODS.items():
-        yield name, module_path, params
+        yield name, module_path, params 
