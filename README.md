@@ -347,7 +347,8 @@ Rank position of the **first relevant result**.
 
 bash
 pip install -r requirements.txt
-2 Run preprocessing
+
+## 2 Run preprocessing
 
 Open and run:
 
@@ -355,46 +356,49 @@ notebook/Data_preprocessing.ipynb
 
 This generates:
 
-data/processed_data/df_models.parquet
-data/processed_data/df_eval.parquet
-3 Build document corpora
+- data/processed_data/df_models.parquet
+- data/processed_data/df_eval.parquet
+
+## 3 Build document corpora
 
 Run:
 
-python scripts/build_corpora.py
+- python scripts/build_corpora.py
 
 This script:
 
-loads df_models.parquet
+- loads df_models.parquet
 
-runs all selection methods
+- runs all selection methods
 
-creates one document per place
+- creates one document per place
 
-stores results in cache
+- stores results in cache
 
 Output directory:
 
 data/processed_data/selection_cache/
-4 Run BM25 screening
+
+## 4 Run BM25 screening
 
 Run:
 
-python evaluation/run_experiment_bm25.py
+- python evaluation/run_experiment_bm25.py
 
 Purpose:
 
-Evaluate all selection methods using BM25 to identify the best document construction strategies.
+- Evaluate all selection methods using BM25 to identify the best document construction strategies.
 
 Results are saved in:
 
-results/bm25_selection_methods_full_metrics.csv
-results/bm25_top5_selection_methods.csv
-5 Run full model evaluation
+- results/bm25_selection_methods_full_metrics.csv
+- results/bm25_top5_selection_methods.csv
+
+## 5 Run full model evaluation
 
 After selecting the top 5 methods, run:
 
-python evaluation/evaluate_all.py
+- python evaluation/evaluate_all.py
 
 Inside evaluate_all.py, specify the selected methods:
 
@@ -408,20 +412,17 @@ TOP5_METHOD_NAMES = [
 
 The script evaluates:
 
-BM25
-
-TF-IDF
-
-Dense models
-
-Hybrid retrieval
-
-Dense + reranking
+- BM25
+- TF-IDF
+- Dense models
+- Hybrid retrieval
+- Dense + reranking
 
 Results are saved in:
 
 results/models_top5_selection_methods.csv
-Experimental Pipeline
+
+# Experimental Pipeline
 Preprocessing (Jupyter Notebook)
         ↓
 Build place documents (selection methods)
@@ -435,30 +436,27 @@ Evaluate multiple retrieval models
 Compare ranking performance
 Key Findings
 
-Main observations:
+# Main observations:
 
-TF-IDF word budgets produce strong lexical representations.
+- TF-IDF word budgets produce strong lexical representations.
+- Dense MPNet achieves the best ranking quality.
+- Hybrid retrieval provides robust overall performance.
+- Cross-encoder reranking significantly improves strict relevance.
 
-Dense MPNet achieves the best ranking quality.
-
-Hybrid retrieval provides robust overall performance.
-
-Cross-encoder reranking significantly improves strict relevance.
-
-Future Improvements
+## Future Improvements
 
 Possible extensions:
 
-tuning hybrid weight α
+- tuning hybrid weight α
 
-type-specific retrieval models
+- type-specific retrieval models
 
-improved review quality scoring
+- improved review quality scoring
 
-FAISS indexing for large-scale dense retrieval
+- FAISS indexing for large-scale dense retrieval
 
-learning-to-rank approaches
+- learning-to-rank approaches
 
-License
+# License
 
 This project was developed for academic purposes as part of the Information Retrieval & NLP course.
