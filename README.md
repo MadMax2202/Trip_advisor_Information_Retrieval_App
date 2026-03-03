@@ -26,62 +26,6 @@ The system retrieves and ranks candidate places by comparing a **query text** to
 
 ---
 
-# Project Structure
-
-
-TRIP_ADVISOR_INFORMATION_RETRIEVAL
-│
-├── data
-│ ├── reviews83325.csv
-│ ├── Tripadvisor.csv
-│ └── processed_data
-│ ├── df_models.parquet
-│ ├── df_eval.parquet
-│ └── selection_cache
-│
-├── Extra_data
-│ ├── AttractionSubCategorie.csv
-│ ├── AttractionSubType.csv
-│ ├── cuisine.csv
-│ ├── dietary_restrictions.csv
-│ └── restaurantType.csv
-│
-├── models
-│ ├── bm25.py
-│ ├── tfidf.py
-│ ├── dense.py
-│ ├── hybrid.py
-│ └── dense_rerank.py
-│
-├── selection
-│ ├── base.py
-│ ├── cache.py
-│ ├── registry.py
-│ ├── standardize_cached.py
-│ └── methods
-│
-├── scripts
-│ └── build_corpora.py
-│
-├── evaluation
-│ ├── run_experiment_bm25.py
-│ └── evaluate_all.py
-│
-├── notebook
-│ └── Data_preprocessing.ipynb
-│
-├── results
-│ ├── bm25_selection_methods_full_metrics.csv
-│ ├── bm25_top5_selection_methods.csv
-│ ├── models_testing_top5_selection_methods.csv
-│ └── models_top5_selection_methods.csv
-│
-├── requirements.txt
-└── README.md
-
-
----
-
 # Dataset
 
 The system uses TripAdvisor datasets.
@@ -401,7 +345,7 @@ Rank position of the **first relevant result**.
 
 ## 1 Install dependencies
 
-```bash
+bash
 pip install -r requirements.txt
 2 Run preprocessing
 
